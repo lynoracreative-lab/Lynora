@@ -1,0 +1,17 @@
+{
+  "install": "npm ci\nnpx prisma generate",
+  "start": "true",
+  "ports": [
+    {
+      "name": "Lynora",
+      "port": 43127
+    }
+  ],
+  "terminals": [
+    {
+      "name": "dev-server",
+      "command": "npm run dev",
+      "description": "Lynora Next.js app on port 43127"
+    }
+  ]
+}

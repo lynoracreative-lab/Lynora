@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" fill="none">
+  <rect width="800" height="1000" fill="#111111"/>
+  <circle cx="400" cy="360" r="180" fill="#C9A55C" fill-opacity="0.08"/>
+  <circle cx="400" cy="360" r="120" stroke="#C9A55C" stroke-opacity="0.4"/>
+  <circle cx="400" cy="360" r="40" fill="#C9A55C" fill-opacity="0.7"/>
+  <rect x="230" y="620" width="340" height="1" fill="#C9A55C" fill-opacity="0.4"/>
+  <text x="400" y="680" fill="#F5F3ED" font-family="Georgia, serif" font-size="36" text-anchor="middle">Founder portrait</text>
+  <text x="400" y="720" fill="#9A968D" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Replace this image in /public/branding or the Media Library</text>
+</svg>

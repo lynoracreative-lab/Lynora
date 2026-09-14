@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100" fill="none">
+  <rect width="1600" height="1100" fill="#0D0D0D"/>
+  <circle cx="1280" cy="180" r="260" fill="#C9A55C" fill-opacity="0.09"/>
+  <rect x="180" y="180" width="720" height="740" rx="36" fill="#111111" stroke="#C9A55C" stroke-opacity="0.25"/>
+  <rect x="230" y="240" width="280" height="10" rx="5" fill="#C9A55C"/>
+  <rect x="230" y="290" width="520" height="28" rx="8" fill="#F5F3ED" fill-opacity="0.9"/>
+  <rect x="230" y="340" width="380" height="14" rx="7" fill="#9A968D" fill-opacity="0.5"/>
+  <rect x="230" y="430" width="280" height="360" rx="24" fill="#1a1712"/>
+  <rect x="540" y="430" width="280" height="360" rx="24" fill="#16130f"/>
+  <circle cx="370" cy="560" r="48" fill="#C9A55C" fill-opacity="0.18"/>
+  <text x="1020" y="520" fill="#F5F3ED" font-family="Georgia, serif" font-size="54">Atelier</text>
+  <text x="1020" y="580" fill="#C9A55C" font-family="Arial, sans-serif" font-size="16" letter-spacing="6">BEAUTY &amp; WELLNESS</text>
+</svg>

@@ -1,0 +1,212 @@
+import { serviceCatalog } from "@/data/services";
+
+export const fallbackServices = serviceCatalog.map((service) => ({
+  id: `fallback-${service.slug}`,
+  coverImage: null,
+  ...service,
+}));
+
+export const fallbackProjects = [
+  {
+    id: "fallback-beauty",
+    title: "Beauty & Wellness Website",
+    slug: "beauty-wellness-website",
+    industry: "Beauty & Wellness",
+    projectType: "Website redesign concept",
+    status: "CONCEPT" as const,
+    services: ["Websites"],
+    summary: "A refined digital presence for a wellness studio that needs to feel calm, premium and easy to book.",
+    coverImage: "/portfolio/beauty-wellness.svg",
+    problem: "The existing website felt generic and did not reflect the quality of the in-person experience.",
+    solution: "A quieter visual system, clearer service structure and a more confident booking path.",
+    results: "A concept designed to help the studio look as considered online as it does in person.",
+    testimonial: null,
+    projectUrl: null,
+    featured: true,
+    published: true,
+    gallery: [],
+  },
+  {
+    id: "fallback-restaurant",
+    title: "Restaurant Digital Presence",
+    slug: "restaurant-digital-presence",
+    industry: "Hospitality",
+    projectType: "Website + branding",
+    status: "CONCEPT" as const,
+    services: ["Websites", "Branding"],
+    summary: "A warmer brand and website concept for a restaurant that wants guests before they arrive.",
+    coverImage: "/portfolio/restaurant.svg",
+    problem: "Menus, atmosphere and reservations were spread across disconnected pages.",
+    solution: "A more editorial brand expression with a website built around dining, menus and booking.",
+    results: "A digital presence that feels closer to the room and easier to act on.",
+    testimonial: null,
+    projectUrl: null,
+    featured: true,
+    published: true,
+    gallery: [],
+  },
+  {
+    id: "fallback-contractor",
+    title: "Contractor Lead Generation Website",
+    slug: "contractor-lead-generation-website",
+    industry: "Trades & Contracting",
+    projectType: "Website + SEO",
+    status: "CONCEPT" as const,
+    services: ["Websites", "Marketing"],
+    summary: "A lead-focused website concept for a contractor who needs trust, proof and a clear enquiry path.",
+    coverImage: "/portfolio/contractor.svg",
+    problem: "The current site made it hard to understand services, service areas and next steps.",
+    solution: "Stronger proof, clearer service pages and a website structured for search and enquiries.",
+    results: "A concept built to turn visitors into qualified project requests.",
+    testimonial: null,
+    projectUrl: null,
+    featured: true,
+    published: true,
+    gallery: [],
+  },
+  {
+    id: "fallback-lynora",
+    title: "Lynora Brand Identity",
+    slug: "lynora-brand-identity",
+    industry: "Creative Studio",
+    projectType: "Branding + Web",
+    status: "INTERNAL" as const,
+    services: ["Branding", "Websites"],
+    summary: "The in-house identity and digital system for Lynora — dark, gold and built around curiosity.",
+    coverImage: "/branding/lynora-logo.png",
+    problem: "Lynora needed a brand that felt premium without becoming generic luxury theatre.",
+    solution: "A restrained black-and-gold system, editorial type and a website designed to convert.",
+    results: "A studio identity that can grow with services, work and writing.",
+    testimonial: null,
+    projectUrl: "/",
+    featured: true,
+    published: true,
+    gallery: [],
+  },
+];
+
+export const fallbackTestimonials = [
+  {
+    id: "sample-1",
+    clientName: "Sample client",
+    company: "Sample business",
+    role: "Owner",
+    quote:
+      "Sample testimonial — replace with client review. This is placeholder copy so the layout is ready when real reviews arrive.",
+    clientImage: null,
+    companyLogo: null,
+    featured: true,
+    published: true,
+    sortOrder: 1,
+  },
+  {
+    id: "sample-2",
+    clientName: "Sample client",
+    company: "Sample studio",
+    role: "Founder",
+    quote:
+      "Sample testimonial — replace with client review. Use this card to show how a client describes working with Lynora.",
+    clientImage: null,
+    companyLogo: null,
+    featured: true,
+    published: true,
+    sortOrder: 2,
+  },
+  {
+    id: "sample-3",
+    clientName: "Sample client",
+    company: "Sample company",
+    role: "Marketing lead",
+    quote:
+      "Sample testimonial — replace with client review. Keep the wording specific once you have a real result to share.",
+    clientImage: null,
+    companyLogo: null,
+    featured: true,
+    published: true,
+    sortOrder: 3,
+  },
+];
+
+export const fallbackFaqs = [
+  {
+    id: "faq-1",
+    question: "How much does a website cost?",
+    answer:
+      "Every project is scoped around the pages, features and outcomes you need. After a short conversation we share a clear recommendation rather than a one-size-fits-all package.",
+    category: "Pricing",
+    published: true,
+    sortOrder: 1,
+  },
+  {
+    id: "faq-2",
+    question: "Do you work with businesses outside South Africa?",
+    answer:
+      "Yes. Lynora works with clients locally and internationally. Most of the process is remote, with clear communication throughout.",
+    category: "Working together",
+    published: true,
+    sortOrder: 2,
+  },
+  {
+    id: "faq-3",
+    question: "Can you help if I already have a website?",
+    answer:
+      "Yes. We regularly redesign, refine or rebuild existing websites so they look more professional and convert more effectively.",
+    category: "Websites",
+    published: true,
+    sortOrder: 3,
+  },
+  {
+    id: "faq-4",
+    question: "Do you offer branding and marketing separately?",
+    answer:
+      "Yes. You can work with Lynora on a website, branding, marketing or a combination of services. We recommend starting with the part that is holding the business back most.",
+    category: "Services",
+    published: true,
+    sortOrder: 4,
+  },
+  {
+    id: "faq-5",
+    question: "Do you manage social media monthly?",
+    answer:
+      "We can support social media through strategy, content direction and selected ongoing management. Tell us what you need and we will recommend the right level of support.",
+    category: "Marketing",
+    published: true,
+    sortOrder: 5,
+  },
+  {
+    id: "faq-6",
+    question: "How long does a website project take?",
+    answer:
+      "Most website projects take a few weeks rather than a few days. Timeline depends on scope, content readiness and how quickly feedback comes back.",
+    category: "Process",
+    published: true,
+    sortOrder: 6,
+  },
+  {
+    id: "faq-7",
+    question: "Do you offer ecommerce websites?",
+    answer:
+      "Yes. We can design and develop ecommerce websites when a business needs to sell products online, with a structure built around browsing, trust and checkout.",
+    category: "Websites",
+    published: true,
+    sortOrder: 7,
+  },
+  {
+    id: "faq-8",
+    question: "Can you help with SEO and Google Ads?",
+    answer:
+      "Yes. Lynora offers SEO, search visibility work and paid advertising support across Google and Meta, always tied to a business objective.",
+    category: "Marketing",
+    published: true,
+    sortOrder: 8,
+  },
+  {
+    id: "faq-9",
+    question: "Do you offer ongoing website maintenance?",
+    answer:
+      "Yes. After launch we can help with updates, improvements, content changes and technical care so the website does not stall once it is live.",
+    category: "Support",
+    published: true,
+    sortOrder: 9,
+  },
+];

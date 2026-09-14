@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100" fill="none">
+  <rect width="1600" height="1100" fill="#080808"/>
+  <circle cx="1160" cy="360" r="260" fill="#C9A55C" fill-opacity="0.1"/>
+  <circle cx="1160" cy="360" r="170" stroke="#C9A55C" stroke-opacity="0.35"/>
+  <circle cx="1160" cy="360" r="70" stroke="#E0BE7A" stroke-opacity="0.7"/>
+  <text x="140" y="430" fill="#F5F3ED" font-family="Georgia, serif" font-size="110">LYNORA</text>
+  <text x="146" y="500" fill="#C9A55C" font-family="Arial, sans-serif" font-size="20" letter-spacing="9">WHERE CURIOSITY MEETS TECHNOLOGY.</text>
+  <rect x="146" y="560" width="180" height="1" fill="#C9A55C"/>
+</svg>

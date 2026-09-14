@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100" fill="none">
+  <rect width="1600" height="1100" fill="#0A0A0A"/>
+  <rect x="140" y="160" width="1320" height="780" rx="32" fill="#101010" stroke="#C9A55C" stroke-opacity="0.2"/>
+  <rect x="200" y="230" width="520" height="18" rx="9" fill="#C9A55C"/>
+  <rect x="200" y="290" width="700" height="40" rx="10" fill="#F5F3ED" fill-opacity="0.92"/>
+  <rect x="200" y="360" width="560" height="16" rx="8" fill="#9A968D" fill-opacity="0.55"/>
+  <rect x="200" y="460" width="240" height="64" rx="18" fill="#C9A55C"/>
+  <rect x="980" y="250" width="400" height="560" rx="28" fill="#161616"/>
+  <rect x="1020" y="310" width="320" height="140" rx="18" fill="#1b1b1b"/>
+  <rect x="1020" y="480" width="320" height="140" rx="18" fill="#1b1b1b"/>
+  <rect x="1020" y="650" width="320" height="100" rx="18" fill="#1b1b1b"/>
+  <text x="200" y="430" fill="#F5F3ED" font-family="Georgia, serif" font-size="42">Built to convert leads.</text>
+</svg>

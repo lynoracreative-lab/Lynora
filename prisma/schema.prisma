@@ -1,0 +1,248 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ProjectStatus {
+  REAL
+  CONCEPT
+  INTERNAL
+}
+
+enum EnquiryStatus {
+  NEW
+  READ
+  CONTACTED
+  CLOSED
+}
+
+enum MediaKind {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  OTHER
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(EDITOR)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+model Page {
+  id             String        @id @default(cuid())
+  slug           String        @unique
+  title          String
+  seoTitle       String?
+  seoDescription String?
+  ogImage        String?
+  canonicalUrl   String?
+  noIndex        Boolean       @default(false)
+  published      Boolean       @default(true)
+  sections       PageSection[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model PageSection {
+  id         String   @id @default(cuid())
+  pageId     String
+  page       Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  key        String
+  heading    String?
+  subheading String?
+  paragraph  String?  @db.Text
+  ctaLabel   String?
+  ctaUrl     String?
+  image      String?
+  enabled    Boolean  @default(true)
+  sortOrder  Int      @default(0)
+  extra      Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([pageId, key])
+}
+
+model Service {
+  id               String   @id @default(cuid())
+  title            String
+  slug             String   @unique
+  shortDescription String   @db.Text
+  fullDescription  String   @db.Text
+  icon             String   @default("sparkles")
+  coverImage       String?
+  idealClient      String   @db.Text
+  deliverables     String   @db.Text
+  outcomes         String   @db.Text
+  ctaLabel         String   @default("Start a Project")
+  ctaUrl           String   @default("/contact")
+  seoTitle         String?
+  seoDescription   String?
+  published        Boolean  @default(true)
+  sortOrder        Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Project {
+  id             String         @id @default(cuid())
+  title          String
+  slug           String         @unique
+  industry       String
+  projectType    String
+  status         ProjectStatus  @default(CONCEPT)
+  services       String[]
+  summary        String         @db.Text
+  coverImage     String?
+  problem        String         @db.Text
+  solution       String         @db.Text
+  results        String         @db.Text
+  testimonial    String?        @db.Text
+  projectUrl     String?
+  featured       Boolean        @default(false)
+  published      Boolean        @default(false)
+  seoTitle       String?
+  seoDescription String?
+  gallery        ProjectImage[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  url       String
+  altText   String  @default("")
+  sortOrder Int     @default(0)
+}
+
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts Post[]
+}
+
+model Tag {
+  id    String    @id @default(cuid())
+  name  String    @unique
+  slug  String    @unique
+  posts PostTag[]
+}
+
+model Post {
+  id             String        @id @default(cuid())
+  title          String
+  slug           String        @unique
+  excerpt        String        @db.Text
+  content        String        @db.Text
+  featuredImage  String?
+  status         PublishStatus @default(DRAFT)
+  authorId       String
+  author         User          @relation(fields: [authorId], references: [id])
+  categoryId     String?
+  category       Category?     @relation(fields: [categoryId], references: [id])
+  tags           PostTag[]
+  seoTitle       String?
+  seoDescription String?
+  ogImage        String?
+  featured       Boolean       @default(false)
+  publishedAt    DateTime?
+  scheduledAt    DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model PostTag {
+  postId String
+  tagId  String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model Media {
+  id         String    @id @default(cuid())
+  fileName   String
+  title      String
+  fileUrl    String
+  fileType   MediaKind
+  mimeType   String
+  fileSize   Int
+  width      Int?
+  height     Int?
+  altText    String    @default("")
+  uploadedAt DateTime  @default(now())
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  clientName  String
+  company     String
+  role        String
+  quote       String   @db.Text
+  clientImage String?
+  companyLogo String?
+  featured    Boolean  @default(false)
+  published   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String   @default("General")
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Enquiry {
+  id               String        @id @default(cuid())
+  name             String
+  businessName     String
+  email            String
+  phone            String
+  website          String?
+  service          String
+  budget           String
+  message          String        @db.Text
+  preferredContact String
+  status           EnquiryStatus @default(NEW)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
