@@ -62,6 +62,62 @@ function safeFileName(originalName: string, mimeType: string) {
   return `${unique}.${ext}`;
 }
 
+const UPLOAD_BUCKET = "uploads";
+
+function supabaseSettings() {
+  const baseUrl = process.env.SUPABASE_URL?.replace(/\/$/, "");
+  const secretKey = process.env.SUPABASE_SECRET_KEY;
+  if (!baseUrl || !secretKey) {
+    throw new Error("Supabase storage is not configured.");
+  }
+  return { baseUrl, secretKey };
+}
+
+function publicObjectUrl(baseUrl: string, fileName: string) {
+  return `${baseUrl}/storage/v1/object/public/${UPLOAD_BUCKET}/${encodeURIComponent(fileName)}`;
+}
+
+async function supabaseRequest(path: string, init: RequestInit) {
+  const { baseUrl, secretKey } = supabaseSettings();
+  const headers = new Headers(init.headers);
+  headers.set("apikey", secretKey);
+  headers.set("Authorization", `Bearer ${secretKey}`);
+  return fetch(`${baseUrl}${path}`, { ...init, headers });
+}
+
+async function ensureUploadsBucket() {
+  const response = await supabaseRequest("/storage/v1/bucket", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: UPLOAD_BUCKET,
+      name: UPLOAD_BUCKET,
+      public: true,
+      file_size_limit: MAX_VIDEO_SIZE,
+      allowed_mime_types: [
+        ...ALLOWED_IMAGE_TYPES,
+        ...ALLOWED_VIDEO_TYPES,
+        ...ALLOWED_DOCUMENT_TYPES,
+      ],
+    }),
+  });
+  if (response.ok || response.status === 409) return;
+  const detail = await response.text();
+  if (detail.toLowerCase().includes("already exists")) return;
+  throw new Error("Could not prepare image storage.");
+}
+
+async function dimensionsOf(buffer: Buffer, fileType: StoredFile["fileType"]) {
+  if (fileType !== "IMAGE") return { width: undefined, height: undefined };
+  try {
+    const { imageSize } = await import("image-size");
+    const size = imageSize(buffer);
+    return { width: size.width, height: size.height };
+  } catch {
+    return { width: undefined, height: undefined };
+  }
+}
+
 async function uploadLocal(buffer: Buffer, file: File): Promise<StoredFile> {
   const fileType = validateUpload(file);
   const fileName = safeFileName(file.name, file.type);
@@ -69,18 +125,7 @@ async function uploadLocal(buffer: Buffer, file: File): Promise<StoredFile> {
   await mkdir(destDir, { recursive: true });
   await writeFile(path.join(destDir, fileName), buffer);
 
-  let width: number | undefined;
-  let height: number | undefined;
-  if (fileType === "IMAGE") {
-    try {
-      const { imageSize } = await import("image-size");
-      const size = imageSize(buffer);
-      width = size.width;
-      height = size.height;
-    } catch {
-      // Dimensions are optional metadata.
-    }
-  }
+  const size = await dimensionsOf(buffer, fileType);
 
   return {
     fileName,
@@ -88,8 +133,39 @@ async function uploadLocal(buffer: Buffer, file: File): Promise<StoredFile> {
     mimeType: file.type,
     fileSize: file.size,
     fileType,
-    width,
-    height,
+    width: size.width,
+    height: size.height,
+  };
+}
+
+async function uploadSupabase(buffer: Buffer, file: File): Promise<StoredFile> {
+  const fileType = validateUpload(file);
+  const fileName = safeFileName(file.name, file.type);
+  const { baseUrl } = supabaseSettings();
+  await ensureUploadsBucket();
+
+  const response = await supabaseRequest(`/storage/v1/object/${UPLOAD_BUCKET}/${encodeURIComponent(fileName)}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": file.type,
+      "Cache-Control": "public, max-age=31536000, immutable",
+      "x-upsert": "true",
+    },
+    body: new Uint8Array(buffer),
+  });
+  if (!response.ok) {
+    throw new Error("Image storage upload failed.");
+  }
+
+  const size = await dimensionsOf(buffer, fileType);
+  return {
+    fileName,
+    fileUrl: publicObjectUrl(baseUrl, fileName),
+    mimeType: file.type,
+    fileSize: file.size,
+    fileType,
+    width: size.width,
+    height: size.height,
   };
 }
 
@@ -145,10 +221,36 @@ export async function uploadMediaFile(file: File): Promise<StoredFile> {
   if (provider === "cloudinary") {
     return uploadCloudinary(buffer, file);
   }
+  if (provider === "supabase") {
+    return uploadSupabase(buffer, file);
+  }
   return uploadLocal(buffer, file);
 }
 
+function supabaseObjectName(fileUrl: string) {
+  const { baseUrl } = supabaseSettings();
+  const prefix = `${baseUrl}/storage/v1/object/public/${UPLOAD_BUCKET}/`;
+  if (!fileUrl.startsWith(prefix)) return null;
+  return decodeURIComponent(fileUrl.slice(prefix.length).split("?")[0]);
+}
+
 export async function deleteStoredFile(fileUrl: string) {
+  const objectName = fileUrl.includes(`/storage/v1/object/public/${UPLOAD_BUCKET}/`)
+    ? supabaseObjectName(fileUrl)
+    : null;
+  if (objectName) {
+    const response = await supabaseRequest(`/storage/v1/object/${UPLOAD_BUCKET}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prefixes: [objectName] }),
+    });
+    if (!response.ok && response.status !== 404) {
+      throw new Error("Could not delete the stored image.");
+    }
+    return;
+  }
+
+  if ((process.env.STORAGE_PROVIDER || "local") !== "local") return;
   if (!fileUrl.startsWith("/uploads/")) return;
   const fileName = path.basename(fileUrl);
   const fullPath = path.join(process.cwd(), "public", "uploads", fileName);

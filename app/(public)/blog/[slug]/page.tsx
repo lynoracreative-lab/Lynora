@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
 import { Container } from "@/components/public/Container";
+import { JsonLd } from "@/components/public/JsonLd";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { sanitizeRichText } from "@/lib/sanitize";
 import { buildMetadata } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
 import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +40,9 @@ export async function generateMetadata({
     ogImage: post.ogImage || post.featuredImage,
     path: `/blog/${slug}`,
     noIndex: post.status !== "PUBLISHED",
+    type: post.status === "PUBLISHED" ? "article" : "website",
+    publishedTime: (post.publishedAt || post.createdAt).toISOString(),
+    modifiedTime: post.updatedAt.toISOString(),
   });
 }
 
@@ -52,9 +58,32 @@ export default async function BlogPostPage({
   const post = await getPost(slug, preview === "1");
   if (!post) notFound();
 
+  const crumbs = [
+    { href: "/", label: "Home" },
+    { href: "/blog", label: "Journal" },
+    { href: `/blog/${post.slug}`, label: post.title },
+  ];
+
   return (
     <article className="pt-32 pb-24">
+      {post.status === "PUBLISHED" ? (
+        <JsonLd
+          data={[
+            breadcrumbJsonLd(crumbs),
+            articleJsonLd({
+              title: post.title,
+              slug: post.slug,
+              excerpt: post.excerpt,
+              featuredImage: post.ogImage || post.featuredImage,
+              publishedAt: post.publishedAt,
+              updatedAt: post.updatedAt,
+              authorName: post.author.name,
+            }),
+          ]}
+        />
+      ) : null}
       <Container className="max-w-3xl">
+        <Breadcrumbs items={crumbs} />
         {post.status !== "PUBLISHED" ? (
           <p className="mb-4 text-[0.7rem] tracking-[0.18em] uppercase text-gold">Preview — draft</p>
         ) : null}
@@ -66,7 +95,14 @@ export default async function BlogPostPage({
         <p className="mt-4 text-sm text-stone">By {post.author.name}</p>
         {post.featuredImage ? (
           <div className="relative mt-10 aspect-[16/10] overflow-hidden rounded-[28px]">
-            <Image src={post.featuredImage} alt={post.title} fill className="object-cover" />
+            <Image
+              src={post.featuredImage}
+              alt={post.title}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
           </div>
         ) : null}
         <div

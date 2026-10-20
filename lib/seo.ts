@@ -9,6 +9,9 @@ type SeoInput = {
   canonicalUrl?: string | null;
   noIndex?: boolean;
   path?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
 };
 
 export function buildMetadata({
@@ -18,6 +21,9 @@ export function buildMetadata({
   canonicalUrl,
   noIndex,
   path = "/",
+  type = "website",
+  publishedTime,
+  modifiedTime,
 }: SeoInput): Metadata {
   const resolvedTitle = title || DEFAULT_SETTINGS.defaultSeoTitle;
   const resolvedDescription = description || DEFAULT_SETTINGS.defaultSeoDescription;
@@ -29,14 +35,28 @@ export function buildMetadata({
     title: resolvedTitle,
     description: resolvedDescription,
     alternates: { canonical },
-    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
+    robots: noIndex
+      ? { index: false, follow: false }
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+          },
+        },
     openGraph: {
       title: resolvedTitle,
       description: resolvedDescription,
       url: canonical,
       siteName: "Lynora",
-      type: "website",
+      locale: "en_ZA",
+      type,
       images: [{ url: imageUrl, alt: resolvedTitle }],
+      ...(type === "article" ? { publishedTime, modifiedTime } : {}),
     },
     twitter: {
       card: "summary_large_image",

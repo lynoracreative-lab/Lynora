@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
 import { ButtonLink } from "@/components/public/ButtonLink";
 import { Container } from "@/components/public/Container";
+import { JsonLd } from "@/components/public/JsonLd";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, projectJsonLd } from "@/lib/structured-data";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +42,7 @@ export async function generateMetadata({
   return buildMetadata({
     title: project.seoTitle || `${project.title} | Lynora`,
     description: project.seoDescription || project.summary,
+    ogImage: project.coverImage,
     path: `/work/${slug}`,
     noIndex: !project.published,
   });
@@ -56,9 +60,17 @@ export default async function ProjectPage({
   const project = await getProject(slug, preview === "1");
   if (!project) notFound();
 
+  const crumbs = [
+    { href: "/", label: "Home" },
+    { href: "/work", label: "Work" },
+    { href: `/work/${project.slug}`, label: project.title },
+  ];
+
   return (
     <div className="pt-32 pb-24">
+      {project.published ? <JsonLd data={[breadcrumbJsonLd(crumbs), projectJsonLd(project)]} /> : null}
       <Container className="max-w-4xl">
+        <Breadcrumbs items={crumbs} />
         {!project.published ? (
           <p className="mb-4 text-[0.7rem] tracking-[0.18em] uppercase text-gold">Preview — unpublished</p>
         ) : null}
@@ -71,8 +83,9 @@ export default async function ProjectPage({
             src={project.coverImage || "/portfolio/lynora-identity.svg"}
             alt={project.title}
             fill
-            className="object-cover"
             priority
+            sizes="(max-width: 896px) 100vw, 896px"
+            className="object-cover"
           />
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-3">
@@ -93,7 +106,13 @@ export default async function ProjectPage({
           <div className="mt-12 grid gap-4">
             {project.gallery.map((image) => (
               <div key={image.id} className="relative aspect-[16/10] overflow-hidden rounded-[24px]">
-                <Image src={image.url} alt={image.altText || project.title} fill className="object-cover" />
+                <Image
+                  src={image.url}
+                  alt={image.altText || project.title}
+                  fill
+                  sizes="(max-width: 896px) 100vw, 896px"
+                  className="object-cover"
+                />
               </div>
             ))}
           </div>

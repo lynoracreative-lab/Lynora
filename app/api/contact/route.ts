@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { getSiteSettings } from "@/lib/content";
+import { sendEnquiryEmail } from "@/lib/mail";
 import { contactSchema } from "@/lib/validation/contact";
 
 export async function POST(request: Request) {
@@ -35,13 +37,13 @@ export async function POST(request: Request) {
       service: enquiry.service,
     });
 
-    // CONNECT EMAIL SENDING HERE
-    // Option A — Resend:
-    //   const resend = new Resend(process.env.RESEND_API_KEY)
-    //   await resend.emails.send({ from, to: settings.email, subject, html })
-    // Option B — SendGrid / Gmail SMTP / CRM webhook:
-    //   POST the enquiry payload to your provider after this database write.
-    // Keep this after prisma.enquiry.create so the lead is never lost if email fails.
+    try {
+      const settings = await getSiteSettings();
+      const to = settings.email || "lynora.creative@gmail.com";
+      await sendEnquiryEmail(enquiry, to);
+    } catch (error) {
+      console.error("[Lynora enquiry email]", error);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {

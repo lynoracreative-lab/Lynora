@@ -1,7 +1,10 @@
 import { WorkGrid } from "@/components/public/WorkGrid";
 import { Container } from "@/components/public/Container";
+import { JsonLd } from "@/components/public/JsonLd";
 import { getPageBySlug, getPublishedProjects, sectionMap } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
+import { itemListJsonLd } from "@/lib/structured-data";
+import { siteUrl } from "@/lib/utils";
 
 export async function generateMetadata() {
   const page = await getPageBySlug("work");
@@ -18,6 +21,14 @@ export default async function WorkPage() {
 
   return (
     <div className="pt-32 pb-24">
+      <JsonLd
+        data={itemListJsonLd(
+          projects.map((project) => ({
+            name: project.title,
+            url: siteUrl(`/work/${project.slug}`),
+          })),
+        )}
+      />
       <Container>
         <p className="section-label">{hero?.subheading || "Portfolio"}</p>
         <h1 className="mt-4 max-w-3xl font-serif text-5xl text-ivory sm:text-6xl">

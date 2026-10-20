@@ -37,13 +37,13 @@ export function Hero({
   const line3Parts = line3.split(goldText);
 
   return (
-    <section className="relative isolate min-h-[100svh] overflow-x-hidden lg:h-[100svh] lg:overflow-hidden">
+    <section className="relative isolate min-h-[100svh] overflow-x-clip">
       <HeroVisual />
-      <Container className="relative z-10 grid min-h-[100svh] max-w-none grid-rows-[1fr_auto] px-5 pt-24 sm:px-8 lg:h-full lg:px-12 xl:px-16">
-        <div className="flex flex-col justify-center py-10">
+      <Container className="relative z-10 grid min-h-[100svh] max-w-none grid-rows-[1fr_auto] px-5 pt-28 sm:px-8 lg:px-12 xl:px-16">
+        <div className="flex flex-col justify-center py-8 sm:py-10">
           <FadeIn eager>
-            <p className="section-label mb-6">{extra?.label || "Lynora Digital Studio"}</p>
-            <h1 className="max-w-4xl font-serif text-5xl leading-[0.92] text-ivory sm:text-7xl lg:text-[6.6rem] xl:text-[7.2rem]">
+            <p className="section-label mb-5 sm:mb-6">{extra?.label || "Lynora Digital Studio"}</p>
+            <h1 className="max-w-4xl overflow-visible pt-[0.12em] font-serif text-5xl leading-[1.05] text-ivory sm:text-6xl md:text-7xl lg:text-[clamp(4.25rem,6.8vw,6.5rem)]">
               <span className="block">{line1}</span>
               <span className="block">{line2}</span>
               <span className="block">

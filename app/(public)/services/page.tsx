@@ -1,9 +1,12 @@
 import { Container } from "@/components/public/Container";
+import { JsonLd } from "@/components/public/JsonLd";
 import { ServiceCard } from "@/components/public/ServiceCard";
 import { ServicesQuoteCta } from "@/components/public/ServicesQuoteCta";
 import { FadeIn, Stagger, StaggerItem } from "@/lib/motion";
 import { getPageBySlug, getPublishedServices, getSiteSettings, sectionMap } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
+import { itemListJsonLd } from "@/lib/structured-data";
+import { siteUrl } from "@/lib/utils";
 
 export async function generateMetadata() {
   const page = await getPageBySlug("services");
@@ -26,6 +29,14 @@ export default async function ServicesPage() {
 
   return (
     <div className="pt-32 pb-24">
+      <JsonLd
+        data={itemListJsonLd(
+          services.map((service) => ({
+            name: service.title,
+            url: siteUrl(`/services/${service.slug}`),
+          })),
+        )}
+      />
       <Container>
         <FadeIn className="mx-auto max-w-3xl text-center">
           <p className="section-label">{hero?.subheading || "Services"}</p>

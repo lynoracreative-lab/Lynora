@@ -6,12 +6,18 @@ import { prisma } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
-export async function generateMetadata() {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; category?: string; tag?: string }>;
+}) {
+  const { q, category, tag } = await searchParams;
   const page = await getPageBySlug("blog");
   return buildMetadata({
     title: page?.seoTitle || "Journal | Lynora",
     description: page?.seoDescription,
     path: "/blog",
+    noIndex: Boolean(q || category || tag) || page?.noIndex,
   });
 }
 
@@ -87,7 +93,13 @@ export default async function BlogPage({
               <Link key={post.id} href={`/blog/${post.slug}`} className="overflow-hidden rounded-[26px] border border-gold/15">
                 <div className="relative aspect-[16/10] bg-ink-soft">
                   {post.featuredImage ? (
-                    <Image src={post.featuredImage} alt={post.title} fill className="object-cover" />
+                    <Image
+                      src={post.featuredImage}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover"
+                    />
                   ) : null}
                 </div>
                 <div className="p-6">

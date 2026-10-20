@@ -1,9 +1,11 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/public/ButtonLink";
 import { Container } from "@/components/public/Container";
+import { ProcessSteps, resolveProcessSteps } from "@/components/public/Process";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { SectionHeading } from "@/components/public/SectionHeading";
-import { ServiceCard } from "@/components/public/ServiceCard";
+import { ServiceIcon } from "@/components/public/icons";
 import type { SiteSettings } from "@/lib/constants";
 import { FadeIn, Stagger, StaggerItem } from "@/lib/motion";
 import { whatsappLink } from "@/lib/utils";
@@ -15,7 +17,6 @@ type Section = {
   paragraph?: string | null;
   ctaLabel?: string | null;
   ctaUrl?: string | null;
-  image?: string | null;
   extra?: unknown;
 };
 
@@ -23,18 +24,25 @@ function extraOf<T>(value: unknown) {
   return (value || {}) as T;
 }
 
+function firstParagraph(value?: string | null) {
+  return (value || "").split(/\n+/)[0]?.trim() || "";
+}
+
 export function IntroSection({ section }: { section?: Section }) {
   if (!section) return null;
   return (
-    <section id="intro" className="py-24 md:py-32">
-      <Container className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+    <section id="intro" className="py-20 md:py-24">
+      <Container className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
         <SectionHeading
           label={section.subheading || "What we do"}
-          title={section.heading || "We build digital experiences that make businesses easier to discover, trust and choose."}
+          title={
+            section.heading ||
+            "We build digital experiences that make businesses easier to discover, trust and choose."
+          }
         />
         <FadeIn>
           <div className="gold-line mb-6" />
-          <p className="text-base leading-8 text-stone">{section.paragraph}</p>
+          <p className="text-base leading-8 text-stone">{firstParagraph(section.paragraph)}</p>
         </FadeIn>
       </Container>
     </section>
@@ -51,39 +59,44 @@ export function ServicesSection({
     slug: string;
     shortDescription: string;
     icon: string;
-    deliverables?: string;
-    ctaLabel?: string;
-    ctaUrl?: string;
   }[];
 }) {
   if (!section) return null;
   return (
-    <section className="py-24 md:py-32">
+    <section className="py-20 md:py-24">
       <Container>
-        <div className="mb-12">
+        <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             label={section.subheading || "Services"}
-            title={section.heading || "Everything Your Business Needs to Grow Online"}
-            description={
-              section.paragraph ||
-              "From websites and branding to marketing and content, Lynora brings the pieces of your digital presence together."
-            }
+            title={section.heading || "Everything your business needs to grow online"}
+            description={firstParagraph(section.paragraph)}
           />
+          <ButtonLink href={section.ctaUrl || "/services"} variant="secondary">
+            {section.ctaLabel || "View all services"}
+          </ButtonLink>
         </div>
-        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service) => (
             <StaggerItem key={service.slug}>
-              <ServiceCard {...service} />
+              <Link
+                href={`/services/${service.slug}`}
+                className="group flex h-full flex-col rounded-[22px] border border-gold/15 bg-ink-elevated/80 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/45"
+              >
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-2xl border border-gold/20 text-gold">
+                  <ServiceIcon name={service.icon} className="h-5 w-5" />
+                </div>
+                <h3 className="font-serif text-2xl text-ivory transition-colors group-hover:text-gold-light">
+                  {service.title}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-7 text-stone">{service.shortDescription}</p>
+                <span className="mt-6 inline-flex items-center gap-2 text-[0.68rem] tracking-[0.18em] uppercase text-gold">
+                  View service
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
             </StaggerItem>
           ))}
         </Stagger>
-        {section.ctaLabel ? (
-          <div className="mt-10 text-center">
-            <ButtonLink href={section.ctaUrl || "/services"} variant="secondary">
-              {section.ctaLabel}
-            </ButtonLink>
-          </div>
-        ) : null}
       </Container>
     </section>
   );
@@ -107,19 +120,17 @@ export function FeaturedWorkSection({
 }) {
   if (!section) return null;
   return (
-    <section className="py-24 md:py-32">
+    <section className="py-20 md:py-24">
       <Container>
-        <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             label={section.subheading || "Selected work"}
             title={section.heading}
-            description={section.paragraph}
+            description={firstParagraph(section.paragraph)}
           />
-          {section.ctaLabel ? (
-            <ButtonLink href={section.ctaUrl || "/work"} variant="secondary">
-              {section.ctaLabel}
-            </ButtonLink>
-          ) : null}
+          <ButtonLink href={section.ctaUrl || "/work"} variant="secondary">
+            {section.ctaLabel || "View all work"}
+          </ButtonLink>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           {projects.map((project) => (
@@ -131,50 +142,31 @@ export function FeaturedWorkSection({
   );
 }
 
-export function WhyLynoraSection({ section }: { section?: Section }) {
+export function ProcessPreviewSection({
+  section,
+}: {
+  section?: Section;
+}) {
   if (!section) return null;
-  const extra = extraOf<{ pillars?: { number: string; title: string }[] }>(section.extra);
-  const pillars = extra.pillars || [
-    { number: "01", title: "Clear Strategy" },
-    { number: "02", title: "Premium Design" },
-    { number: "03", title: "Purposeful Development" },
-    { number: "04", title: "Growth-Focused Marketing" },
-  ];
+  const extra = extraOf<{ steps?: { number: string; title: string; text: string }[] }>(section.extra);
+  const steps = resolveProcessSteps(extra.steps);
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(201,165,92,0.1),transparent_30%)]" />
-      <Container className="relative">
-        <SectionHeading label={section.subheading || "Why Lynora"} title={section.heading} />
-        <p className="mt-6 max-w-2xl text-base leading-8 text-stone">{section.paragraph}</p>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {pillars.map((pillar) => (
-            <div key={pillar.number} className="rounded-[24px] border border-gold/20 bg-ink-elevated/80 p-6">
-              <p className="font-serif text-4xl text-gold">{pillar.number}</p>
-              <h3 className="mt-4 text-[0.78rem] tracking-[0.2em] uppercase text-ivory">{pillar.title}</h3>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-export function AuditCtaSection({ section }: { section?: Section }) {
-  if (!section) return null;
-  const extra = extraOf<{ notes?: string }>(section.extra);
-  return (
-    <section className="py-24">
+    <section id="process" className="scroll-mt-28 py-20 md:py-24">
       <Container>
-        <div className="overflow-hidden rounded-[30px] border border-gold/20 bg-[linear-gradient(135deg,rgba(201,165,92,0.12),rgba(8,8,8,0.9))] px-6 py-12 md:px-14">
-          <p className="section-label">Website review</p>
-          <h2 className="mt-5 max-w-3xl font-serif text-4xl text-ivory sm:text-5xl">{section.heading}</h2>
-          <p className="mt-5 max-w-2xl text-base leading-8 text-stone">{section.paragraph}</p>
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <ButtonLink href={section.ctaUrl || "/contact?intent=review"}>{section.ctaLabel || "Get a Free Website Review"}</ButtonLink>
-            <p className="text-sm text-gold/80">{extra.notes || "No obligation. No hard sell."}</p>
-          </div>
+        <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <SectionHeading
+            label={section.subheading || "How we work"}
+            title={section.heading || "From idea to launch."}
+            description={
+              firstParagraph(section.paragraph) || "A clear path from first conversation to launch and growth."
+            }
+          />
+          <ButtonLink href="/process" variant="secondary">
+            See the process
+          </ButtonLink>
         </div>
+        <ProcessSteps steps={steps} />
       </Container>
     </section>
   );
@@ -182,34 +174,19 @@ export function AuditCtaSection({ section }: { section?: Section }) {
 
 export function AboutPreviewSection({ section }: { section?: Section }) {
   if (!section) return null;
-  const extra = extraOf<{ founder?: string; founderLabel?: string; image?: string }>(section.extra);
   return (
-    <section className="py-24 md:py-32">
-      <Container className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
-          <SectionHeading label={section.subheading || "About Lynora"} title={section.heading} />
-          <div className="mt-6 space-y-4 whitespace-pre-line text-base leading-8 text-stone">
-            {section.paragraph}
+    <section className="py-20 md:py-24">
+      <Container>
+        <div className="grid items-center gap-10 overflow-hidden rounded-[32px] border border-gold/15 bg-[linear-gradient(135deg,rgba(201,165,92,0.08),rgba(8,8,8,0.92))] px-8 py-12 md:px-14 md:py-16 lg:grid-cols-[1.35fr_0.65fr]">
+          <div>
+            <SectionHeading label={section.subheading || "About Lynora"} title={section.heading} />
+            <p className="mt-6 max-w-2xl text-base leading-8 text-stone">{firstParagraph(section.paragraph)}</p>
           </div>
-          <p className="mt-8 text-[0.72rem] tracking-[0.2em] uppercase text-gold">
-            {extra.founderLabel || "Founder"} · {extra.founder || "Zaghrah Anthony"}
-          </p>
-          {section.ctaLabel ? (
-            <div className="mt-8">
-              <ButtonLink href={section.ctaUrl || "/about"} variant="secondary">
-                {section.ctaLabel}
-              </ButtonLink>
-            </div>
-          ) : null}
-        </div>
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] border border-gold/15">
-          <Image
-            src={section.image || extra.image || "/branding/founder-placeholder.svg"}
-            alt={extra.founder || "Zaghrah Anthony"}
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 40vw"
-          />
+          <div className="flex lg:justify-end">
+            <ButtonLink href={section.ctaUrl || "/about"} variant="secondary">
+              {section.ctaLabel || "Meet Lynora"}
+            </ButtonLink>
+          </div>
         </div>
       </Container>
     </section>
@@ -225,10 +202,13 @@ export function FinalCtaSection({
 }) {
   if (!section) return null;
   const extra = extraOf<{ secondaryCtaLabel?: string; secondaryCtaUrl?: string }>(section.extra);
-  const whatsapp = extra.secondaryCtaUrl === "whatsapp" ? whatsappLink(settings.whatsapp) : extra.secondaryCtaUrl || whatsappLink(settings.whatsapp);
+  const whatsapp =
+    extra.secondaryCtaUrl === "whatsapp"
+      ? whatsappLink(settings.whatsapp)
+      : extra.secondaryCtaUrl || whatsappLink(settings.whatsapp);
 
   return (
-    <section className="relative overflow-hidden py-28">
+    <section className="relative overflow-hidden py-24">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,rgba(201,165,92,0.14),transparent_28%)]" />
       <Container className="relative text-center">
         <h2 className="font-serif text-5xl text-ivory sm:text-6xl">{section.heading}</h2>
@@ -238,12 +218,6 @@ export function FinalCtaSection({
           <ButtonLink href={whatsapp} variant="gold-outline">
             {extra.secondaryCtaLabel || "WhatsApp Us"}
           </ButtonLink>
-        </div>
-        <div className="mt-12 space-y-2 text-sm text-stone">
-          <p>{settings.email}</p>
-          <p>{settings.whatsapp}</p>
-          <p>{settings.location}</p>
-          <p className="pt-3 text-gold/80">Working with clients locally and internationally.</p>
         </div>
       </Container>
     </section>

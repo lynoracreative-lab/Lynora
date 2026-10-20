@@ -13,7 +13,7 @@ const links = [
   { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/#process", label: "Process" },
+  { href: "/process", label: "Process" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -40,7 +40,9 @@ export function Navbar() {
       <div
         className={cn(
           "transition-colors duration-300",
-          scrolled ? "border-b border-gold/10 bg-ink/90 backdrop-blur-xl" : "bg-transparent",
+          scrolled
+            ? "border-b border-gold/10 bg-ink/90 backdrop-blur-xl"
+            : "bg-gradient-to-b from-ink/80 via-ink/45 to-transparent",
         )}
       >
         <div className="mx-auto flex w-full items-center justify-between px-5 py-4 sm:px-8 lg:px-12 xl:px-16">
@@ -51,8 +53,8 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-[0.72rem] tracking-[0.22em] uppercase text-stone transition-colors hover:text-ivory",
-                  pathname === link.href && "text-ivory",
+                  "text-[0.72rem] tracking-[0.22em] uppercase text-ivory drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)] transition-colors hover:text-gold-light",
+                  pathname === link.href && "text-gold",
                 )}
               >
                 {link.label}
@@ -60,7 +62,11 @@ export function Navbar() {
             ))}
           </nav>
           <div className="hidden lg:block">
-            <ButtonLink href="/contact" variant="gold-outline">
+            <ButtonLink
+              href="/contact"
+              variant="gold-outline"
+              className="border-ivory/55 bg-ink/45 text-ivory shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-sm hover:border-gold hover:bg-gold hover:text-ink"
+            >
               Get in Touch
             </ButtonLink>
           </div>
