@@ -1,0 +1,4 @@
+# Next.js keeps server environment values in its build cache.
+# Those cache files are not the public site. Keep scanning the rest of the project.
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = ".netlify/.next/cache/**,.next/cache/**"
