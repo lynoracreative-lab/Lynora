@@ -12,8 +12,8 @@ export function FAQ({
   items: { id: string; question: string; answer: string }[];
 }) {
   return (
-    <section className="py-24 md:py-32">
-      <Container className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+    <section className="py-14 md:py-16">
+      <Container className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <SectionHeading label={label || "FAQ"} title={heading || "Questions, answered plainly."} />
         <div className="space-y-3">
           {items.map((item, index) => (
@@ -26,7 +26,7 @@ export function FAQ({
                 <span className="font-serif text-xl text-ivory">{item.question}</span>
                 <ChevronDown className="h-5 w-5 shrink-0 text-gold transition-transform group-open:rotate-180" />
               </summary>
-              <p className="px-5 pb-5 text-sm leading-7 text-stone">{item.answer}</p>
+              <p className="prose-quiet px-5 pb-5 text-[1rem]">{item.answer}</p>
             </details>
           ))}
         </div>

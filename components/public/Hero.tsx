@@ -42,8 +42,8 @@ export function Hero({
       <Container className="relative z-10 grid min-h-[100svh] max-w-none grid-rows-[1fr_auto] px-5 pt-28 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex flex-col justify-center py-8 sm:py-10">
           <FadeIn eager>
-            <p className="section-label mb-5 sm:mb-6">{extra?.label || "Lynora Digital Studio"}</p>
-            <h1 className="max-w-4xl overflow-visible pt-[0.12em] font-serif text-5xl leading-[1.05] text-ivory sm:text-6xl md:text-7xl lg:text-[clamp(4.25rem,6.8vw,6.5rem)]">
+            <p className="section-label mb-4">{extra?.label || "Lynora Digital Studio"}</p>
+            <h1 className="max-w-4xl overflow-visible pt-[0.06em] font-serif text-5xl leading-[1.08] text-ivory sm:text-6xl md:text-7xl lg:text-[clamp(4rem,6.2vw,6rem)]">
               <span className="block">{line1}</span>
               <span className="block">{line2}</span>
               <span className="block">
@@ -53,10 +53,10 @@ export function Hero({
               </span>
             </h1>
           </FadeIn>
-          <FadeIn eager className="mt-8 max-w-xl">
-            <p className="font-serif text-2xl text-ivory/90">{subheading || heading}</p>
-            <p className="mt-5 text-base leading-8 text-stone">{paragraph}</p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <FadeIn eager className="mt-6 max-w-xl">
+            <p className="font-serif text-[1.65rem] leading-snug text-ivory/95">{subheading || heading}</p>
+            <p className="prose-quiet mt-3">{paragraph}</p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href={ctaUrl || "/contact"}>{ctaLabel || "Start a Project"}</ButtonLink>
               <ButtonLink href={extra?.secondaryCtaUrl || "/work"} variant="secondary">
                 {extra?.secondaryCtaLabel || "View Our Work"}
@@ -65,7 +65,7 @@ export function Hero({
           </FadeIn>
         </div>
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6">
-          <div className="flex flex-wrap gap-x-8 gap-y-3 text-[0.7rem] tracking-[0.22em] uppercase text-stone">
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-[0.78rem] tracking-[0.12em] uppercase text-ivory/55">
             {(extra?.trustedBy || ["Web Design", "Branding", "Marketing", "Strategy", "Digital Growth"]).map(
               (item) => (
                 <span key={item}>{item}</span>
@@ -74,7 +74,7 @@ export function Hero({
           </div>
           <a
             href="#intro"
-            className="inline-flex items-center gap-3 text-[0.68rem] tracking-[0.24em] uppercase text-gold"
+            className="inline-flex items-center gap-2 text-[0.75rem] tracking-[0.12em] uppercase text-gold"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/30">
               <ArrowDown size={14} />

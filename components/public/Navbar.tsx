@@ -53,7 +53,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-[0.72rem] tracking-[0.22em] uppercase text-ivory drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)] transition-colors hover:text-gold-light",
+                  "text-[0.84rem] tracking-[0.08em] text-ivory drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)] transition-colors hover:text-gold-light",
                   pathname === link.href && "text-gold",
                 )}
               >
@@ -88,7 +88,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={closeMenu}
-                    className="text-sm tracking-[0.2em] uppercase text-ivory"
+                    className="text-base text-ivory"
                   >
                     {link.label}
                   </Link>
@@ -96,7 +96,7 @@ export function Navbar() {
                 <Link
                   href="/contact"
                   onClick={closeMenu}
-                  className="inline-flex items-center justify-center rounded-full border border-gold/70 px-6 py-3 text-[0.72rem] font-medium tracking-[0.2em] uppercase text-gold"
+                  className="inline-flex items-center justify-center rounded-full border border-gold/70 px-6 py-3 text-sm font-medium text-gold"
                 >
                   Get in Touch
                 </Link>

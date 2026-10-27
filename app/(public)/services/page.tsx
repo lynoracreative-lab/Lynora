@@ -28,7 +28,7 @@ export default async function ServicesPage() {
   const hero = sectionMap(page?.sections).hero;
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 pb-16">
       <JsonLd
         data={itemListJsonLd(
           services.map((service) => ({
@@ -40,15 +40,15 @@ export default async function ServicesPage() {
       <Container>
         <FadeIn className="mx-auto max-w-3xl text-center">
           <p className="section-label">{hero?.subheading || "Services"}</p>
-          <h1 className="mt-5 font-serif text-4xl text-ivory sm:text-5xl md:text-6xl">
-            {hero?.heading || "Everything Your Business Needs to Grow Online"}
+          <h1 className="mt-3 font-serif text-4xl leading-[1.1] text-ivory sm:text-5xl md:text-6xl">
+            {hero?.heading || "Everything your business needs to grow online"}
           </h1>
-          <p className="mt-6 text-lg leading-8 text-stone">
+          <p className="prose-quiet mt-4">
             {hero?.paragraph ||
               "From websites and branding to marketing and content, Lynora brings the pieces of your digital presence together."}
           </p>
         </FadeIn>
-        <Stagger className="mt-16 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <Stagger className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service) => (
             <StaggerItem key={service.slug}>
               <ServiceCard

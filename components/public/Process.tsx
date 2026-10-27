@@ -30,10 +30,10 @@ export function ProcessSteps({ steps }: { steps: Step[] }) {
             <span className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/35 text-[0.68rem] tracking-[0.18em] text-gold">
               {step.number}
             </span>
-            <h3 className="mt-6 font-serif text-2xl text-ivory transition-colors group-hover:text-gold-light">
+            <h3 className="mt-4 font-serif text-2xl text-ivory transition-colors group-hover:text-gold-light">
               {step.title}
             </h3>
-            <p className="mt-3 flex-1 text-sm leading-7 text-stone">{step.text}</p>
+            <p className="prose-quiet mt-2 flex-1 text-[0.98rem]">{step.text}</p>
           </article>
         </StaggerItem>
       ))}
@@ -53,50 +53,50 @@ export function Process({
   const items = resolveProcessSteps(steps);
 
   return (
-    <div className="relative pt-32 pb-24">
+    <div className="relative pt-28 pb-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[36rem] bg-[radial-gradient(ellipse_at_top_left,rgba(201,165,92,0.16),transparent_58%)]" />
       <Container className="relative">
         <FadeIn className="max-w-3xl">
           <p className="section-label">{label || "How we work"}</p>
-          <h1 className="mt-5 font-serif text-5xl leading-[0.98] text-ivory sm:text-6xl md:text-7xl">
+          <h1 className="mt-3 font-serif text-5xl leading-[1.08] text-ivory sm:text-6xl">
             {heading || "From idea to launch."}
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-8 text-stone sm:text-lg">
+          <p className="prose-quiet mt-4 max-w-xl">
             Five stages, kept in one conversation. We stay with the work from the first brief through launch and the improvements that follow.
           </p>
         </FadeIn>
 
-        <ol className="relative mt-20 md:mt-28">
+        <ol className="relative mt-12 md:mt-16">
           <div
             aria-hidden
             className="absolute top-6 bottom-8 left-[1.3rem] w-px bg-gradient-to-b from-gold via-gold/35 to-transparent md:top-8 md:left-[1.95rem]"
           />
           {items.map((step, index) => (
-            <li key={step.number} className="relative pb-14 last:pb-0 md:pb-20">
-              <FadeIn delay={index * 0.04} className="grid grid-cols-[2.75rem_1fr] items-start gap-4 md:grid-cols-[4rem_1fr] md:gap-16">
+            <li key={step.number} className="relative pb-8 last:pb-0 md:pb-10">
+              <FadeIn delay={index * 0.04} className="grid grid-cols-[2.75rem_1fr] items-start gap-4 md:grid-cols-[4rem_1fr] md:gap-8">
                 <span className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-gold/50 bg-ink font-serif text-lg text-gold shadow-[0_0_0_8px_#080808] md:h-16 md:w-16 md:text-2xl">
                   {step.number}
                 </span>
                 <div className="max-w-2xl md:pt-2">
-                  <p className="text-[0.68rem] tracking-[0.28em] uppercase text-gold/80">Step {step.number}</p>
-                  <h2 className="mt-3 font-serif text-4xl text-ivory md:text-6xl">{step.title}</h2>
-                  <p className="mt-4 max-w-xl text-base leading-8 text-stone md:text-lg">{step.text}</p>
+                  <p className="section-label">Step {step.number}</p>
+                  <h2 className="mt-2 font-serif text-4xl leading-[1.1] text-ivory md:text-5xl">{step.title}</h2>
+                  <p className="prose-quiet mt-2 max-w-xl">{step.text}</p>
                 </div>
               </FadeIn>
             </li>
           ))}
         </ol>
 
-        <FadeIn className="mt-28 md:mt-40">
-          <div className="gold-line mx-auto mb-16 max-w-48 md:mb-20" />
-          <div className="relative overflow-hidden rounded-[36px] border border-gold/20 px-8 py-14 text-center md:px-16 md:py-20">
+        <FadeIn className="mt-16 md:mt-20">
+          <div className="gold-line mx-auto mb-8 max-w-36" />
+          <div className="relative overflow-hidden rounded-[28px] border border-gold/20 px-8 py-10 text-center md:px-14 md:py-12">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,165,92,0.14),transparent_62%)]" />
             <div className="relative">
               <p className="section-label">Next step</p>
-              <h2 className="mx-auto mt-4 max-w-3xl font-serif text-4xl leading-tight text-ivory md:text-6xl">
+              <h2 className="mx-auto mt-3 max-w-2xl font-serif text-4xl leading-[1.12] text-ivory md:text-5xl">
                 Tell us what you want to build.
               </h2>
-              <div className="mt-10">
+              <div className="mt-6">
                 <ButtonLink href="/contact">Get in Touch</ButtonLink>
               </div>
             </div>

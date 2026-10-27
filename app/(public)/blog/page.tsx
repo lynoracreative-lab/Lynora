@@ -56,11 +56,11 @@ export default async function BlogPage({
     .catch(() => []);
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 pb-16">
       <Container>
         <p className="section-label">{hero?.subheading || "Journal"}</p>
-        <h1 className="mt-4 max-w-3xl font-serif text-5xl text-ivory">{hero?.heading}</h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-stone">{hero?.paragraph}</p>
+        <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-[1.1] text-ivory">{hero?.heading}</h1>
+        <p className="prose-quiet mt-4 max-w-2xl">{hero?.paragraph}</p>
 
         <form className="mt-10 flex flex-col gap-3 sm:flex-row" action="/blog">
           <input

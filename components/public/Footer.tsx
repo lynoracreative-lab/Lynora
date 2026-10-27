@@ -31,12 +31,10 @@ export function Footer({ settings }: { settings: SiteSettings }) {
 
   return (
     <footer className="border-t border-gold/10 bg-ink">
-      <Container className="grid gap-12 py-16 md:grid-cols-4">
+      <Container className="grid gap-8 py-12 md:grid-cols-4">
         <div className="md:col-span-1">
           <Logo compact />
-          <p className="mt-5 max-w-xs text-[0.72rem] tracking-[0.22em] uppercase text-gold">
-            {settings.tagline}
-          </p>
+          <p className="tagline mt-4 max-w-xs text-ivory/85">{settings.tagline}</p>
         </div>
         <div>
           <p className="section-label mb-4">Navigation</p>

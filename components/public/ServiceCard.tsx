@@ -41,7 +41,7 @@ export function ServiceCard({
           {title}
         </Link>
       </h3>
-      <p className="mt-3 text-sm leading-7 text-stone">{shortDescription}</p>
+      <p className="prose-quiet mt-3 text-[1rem]">{shortDescription}</p>
       {preview.length ? (
         <ul className="mt-6 space-y-2 text-sm leading-6 text-ivory/80">
           {preview.map((item) => (
@@ -64,7 +64,7 @@ export function ServiceCard({
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="mt-4 inline-flex items-center gap-2 self-start text-[0.68rem] tracking-[0.18em] uppercase text-gold"
+          className="mt-4 inline-flex items-center gap-2 self-start text-sm text-gold"
           aria-expanded={open}
         >
           {open ? "View less" : "View more"}

@@ -20,7 +20,7 @@ export default async function WorkPage() {
   const hero = sectionMap(page?.sections).hero;
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 pb-16">
       <JsonLd
         data={itemListJsonLd(
           projects.map((project) => ({
@@ -31,10 +31,10 @@ export default async function WorkPage() {
       />
       <Container>
         <p className="section-label">{hero?.subheading || "Portfolio"}</p>
-        <h1 className="mt-4 max-w-3xl font-serif text-5xl text-ivory sm:text-6xl">
+        <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-[1.1] text-ivory sm:text-6xl">
           {hero?.heading || "Selected work"}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-stone">{hero?.paragraph}</p>
+        <p className="prose-quiet mt-4 max-w-2xl">{hero?.paragraph}</p>
         <WorkGrid projects={projects} />
       </Container>
     </div>

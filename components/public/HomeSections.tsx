@@ -31,7 +31,7 @@ function firstParagraph(value?: string | null) {
 export function IntroSection({ section }: { section?: Section }) {
   if (!section) return null;
   return (
-    <section id="intro" className="py-20 md:py-24">
+    <section id="intro" className="py-14 md:py-16">
       <Container className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
         <SectionHeading
           label={section.subheading || "What we do"}
@@ -42,7 +42,7 @@ export function IntroSection({ section }: { section?: Section }) {
         />
         <FadeIn>
           <div className="gold-line mb-6" />
-          <p className="text-base leading-8 text-stone">{firstParagraph(section.paragraph)}</p>
+          <p className="prose-quiet">{firstParagraph(section.paragraph)}</p>
         </FadeIn>
       </Container>
     </section>
@@ -63,9 +63,9 @@ export function ServicesSection({
 }) {
   if (!section) return null;
   return (
-    <section className="py-20 md:py-24">
+    <section className="py-14 md:py-16">
       <Container>
-        <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <SectionHeading
             label={section.subheading || "Services"}
             title={section.heading || "Everything your business needs to grow online"}
@@ -88,8 +88,8 @@ export function ServicesSection({
                 <h3 className="font-serif text-2xl text-ivory transition-colors group-hover:text-gold-light">
                   {service.title}
                 </h3>
-                <p className="mt-3 flex-1 text-sm leading-7 text-stone">{service.shortDescription}</p>
-                <span className="mt-6 inline-flex items-center gap-2 text-[0.68rem] tracking-[0.18em] uppercase text-gold">
+                <p className="prose-quiet mt-3 flex-1 text-[1rem]">{service.shortDescription}</p>
+                <span className="mt-5 inline-flex items-center gap-2 text-sm text-gold">
                   View service
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
@@ -120,9 +120,9 @@ export function FeaturedWorkSection({
 }) {
   if (!section) return null;
   return (
-    <section className="py-20 md:py-24">
+    <section className="py-14 md:py-16">
       <Container>
-        <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <SectionHeading
             label={section.subheading || "Selected work"}
             title={section.heading}
@@ -152,9 +152,9 @@ export function ProcessPreviewSection({
   const steps = resolveProcessSteps(extra.steps);
 
   return (
-    <section id="process" className="scroll-mt-28 py-20 md:py-24">
+    <section id="process" className="scroll-mt-28 py-14 md:py-16">
       <Container>
-        <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <SectionHeading
             label={section.subheading || "How we work"}
             title={section.heading || "From idea to launch."}
@@ -175,12 +175,12 @@ export function ProcessPreviewSection({
 export function AboutPreviewSection({ section }: { section?: Section }) {
   if (!section) return null;
   return (
-    <section className="py-20 md:py-24">
+    <section className="py-14 md:py-16">
       <Container>
-        <div className="grid items-center gap-10 overflow-hidden rounded-[32px] border border-gold/15 bg-[linear-gradient(135deg,rgba(201,165,92,0.08),rgba(8,8,8,0.92))] px-8 py-12 md:px-14 md:py-16 lg:grid-cols-[1.35fr_0.65fr]">
+        <div className="grid items-center gap-8 overflow-hidden rounded-[28px] border border-gold/15 bg-[linear-gradient(135deg,rgba(201,165,92,0.08),rgba(8,8,8,0.92))] px-7 py-9 md:px-12 md:py-12 lg:grid-cols-[1.35fr_0.65fr]">
           <div>
             <SectionHeading label={section.subheading || "About Lynora"} title={section.heading} />
-            <p className="mt-6 max-w-2xl text-base leading-8 text-stone">{firstParagraph(section.paragraph)}</p>
+            <p className="prose-quiet mt-4 max-w-2xl">{firstParagraph(section.paragraph)}</p>
           </div>
           <div className="flex lg:justify-end">
             <ButtonLink href={section.ctaUrl || "/about"} variant="secondary">
@@ -208,12 +208,12 @@ export function FinalCtaSection({
       : extra.secondaryCtaUrl || whatsappLink(settings.whatsapp);
 
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="relative overflow-hidden py-16 md:py-20">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,rgba(201,165,92,0.14),transparent_28%)]" />
       <Container className="relative text-center">
-        <h2 className="font-serif text-5xl text-ivory sm:text-6xl">{section.heading}</h2>
-        <p className="mx-auto mt-6 max-w-xl text-base leading-8 text-stone">{section.paragraph}</p>
-        <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+        <h2 className="font-serif text-4xl leading-[1.12] text-ivory sm:text-5xl">{section.heading}</h2>
+        <p className="prose-quiet mx-auto mt-4 max-w-xl">{section.paragraph}</p>
+        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
           <ButtonLink href={section.ctaUrl || "/contact"}>{section.ctaLabel || "Start a Project"}</ButtonLink>
           <ButtonLink href={whatsapp} variant="gold-outline">
             {extra.secondaryCtaLabel || "WhatsApp Us"}

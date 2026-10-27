@@ -37,7 +37,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   ];
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 pb-16">
       <JsonLd data={[breadcrumbJsonLd(crumbs), serviceJsonLd(service)]} />
       <Container className="max-w-4xl">
         <Breadcrumbs items={crumbs} />
@@ -46,13 +46,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         </div>
         <p className="section-label">Service</p>
         <h1 className="mt-4 font-serif text-5xl text-ivory">{service.title}</h1>
-        <p className="mt-6 text-lg leading-8 text-stone">{service.fullDescription}</p>
-        <div className="mt-16 divide-y divide-gold/15 border-y border-gold/15">
-          <section className="grid gap-4 py-10 md:grid-cols-[11rem_1fr] md:items-start md:gap-16 md:py-12">
+        <p className="prose-quiet mt-4">{service.fullDescription}</p>
+        <div className="mt-10 divide-y divide-gold/15 border-y border-gold/15">
+          <section className="grid gap-3 py-7 md:grid-cols-[9rem_1fr] md:items-start md:gap-8 md:py-8">
             <p className="section-label">Ideal client</p>
-            <p className="max-w-2xl text-base leading-8 text-ivory/85">{service.idealClient}</p>
+            <p className="prose-quiet max-w-2xl">{service.idealClient}</p>
           </section>
-          <section className="grid gap-4 py-10 md:grid-cols-[11rem_1fr] md:items-start md:gap-16 md:py-12">
+          <section className="grid gap-3 py-7 md:grid-cols-[9rem_1fr] md:items-start md:gap-8 md:py-8">
             <p className="section-label">Deliverables</p>
             <ul className="max-w-2xl space-y-3">
               {splitLines(service.deliverables).map((item) => (
@@ -63,9 +63,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               ))}
             </ul>
           </section>
-          <section className="grid gap-4 py-10 md:grid-cols-[11rem_1fr] md:items-start md:gap-16 md:py-12">
+          <section className="grid gap-3 py-7 md:grid-cols-[9rem_1fr] md:items-start md:gap-8 md:py-8">
             <p className="section-label">Outcomes</p>
-            <p className="max-w-2xl text-base leading-8 text-ivory/85">{service.outcomes}</p>
+            <p className="prose-quiet max-w-2xl">{service.outcomes}</p>
           </section>
         </div>
         <div className="mt-10">

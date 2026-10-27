@@ -67,7 +67,7 @@ export default async function ProjectPage({
   ];
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 pb-16">
       {project.published ? <JsonLd data={[breadcrumbJsonLd(crumbs), projectJsonLd(project)]} /> : null}
       <Container className="max-w-4xl">
         <Breadcrumbs items={crumbs} />
@@ -75,9 +75,9 @@ export default async function ProjectPage({
           <p className="mb-4 text-[0.7rem] tracking-[0.18em] uppercase text-gold">Preview — unpublished</p>
         ) : null}
         <p className="section-label">{project.industry}</p>
-        <h1 className="mt-4 font-serif text-5xl text-ivory">{project.title}</h1>
-        <p className="mt-3 text-gold">{typeLabel[project.status]} · {project.projectType}</p>
-        <p className="mt-6 text-lg leading-8 text-stone">{project.summary}</p>
+        <h1 className="mt-3 font-serif text-5xl leading-[1.1] text-ivory">{project.title}</h1>
+        <p className="mt-2 text-gold">{typeLabel[project.status]} · {project.projectType}</p>
+        <p className="prose-quiet mt-4">{project.summary}</p>
         <div className="relative mt-10 aspect-[16/10] overflow-hidden rounded-[28px] border border-gold/15">
           <Image
             src={project.coverImage || "/portfolio/lynora-identity.svg"}

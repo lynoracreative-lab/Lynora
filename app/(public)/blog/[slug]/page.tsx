@@ -65,7 +65,7 @@ export default async function BlogPostPage({
   ];
 
   return (
-    <article className="pt-32 pb-24">
+    <article className="pt-28 pb-16">
       {post.status === "PUBLISHED" ? (
         <JsonLd
           data={[

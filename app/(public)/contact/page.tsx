@@ -31,15 +31,15 @@ export default async function ContactPage({
   const review = intent === "review";
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 pb-16">
       {faqs.length ? <JsonLd data={faqJsonLd(faqs)} /> : null}
-      <Container className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+      <Container className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div>
           <p className="section-label">{hero?.subheading || "Start a project"}</p>
-          <h1 className="mt-4 font-serif text-5xl text-ivory">
+          <h1 className="mt-3 font-serif text-5xl leading-[1.1] text-ivory">
             {review ? "Get a free website review" : hero?.heading || "Tell us where you want the business to go."}
           </h1>
-          <p className="mt-6 text-lg leading-8 text-stone">
+          <p className="prose-quiet mt-4">
             {review
               ? "Send us your website and we will share three things we think could improve your online presence. No obligation. No hard sell."
               : hero?.paragraph}
